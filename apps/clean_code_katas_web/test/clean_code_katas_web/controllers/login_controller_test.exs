@@ -1,4 +1,4 @@
-defmodule KatasWeb.LoginControllerTest do
+defmodule KatasWeb.AuthControllerTest do
   use KatasWeb.ConnCase
 
   test "GET /login", %{conn: conn} do

@@ -1,4 +1,4 @@
-defmodule KatasWeb.LoginController do
+defmodule KatasWeb.AuthController do
   use KatasWeb, :controller
 
   def index(conn, _params) do
