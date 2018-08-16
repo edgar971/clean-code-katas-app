@@ -8,17 +8,20 @@ defmodule Katas.AccountsTest do
     alias Katas.Accounts.User
 
     @valid_attrs %{name: "Edgar Pino"}
-    @valid_with_credentials_attrs %{name: "Edgar Pino", credential: %{email: "test@me.com", password_hash: "123456"}}
+    @valid_with_credentials_attrs %{
+      name: "Edgar Pino",
+      credential: %{email: "test@me.com", password: "12345678910"}
+    }
     @update_attrs %{name: "Edgar Beltran"}
     @invalid_attrs %{name: nil}
-
+  
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =
         attrs
         |> Enum.into(@valid_attrs)
         |> Accounts.create_user()
 
-      user
+      user |> Repo.preload(:credential)
     end
 
     test "list_users/0 returns all users" do
@@ -26,17 +29,25 @@ defmodule Katas.AccountsTest do
       assert Accounts.list_users() == [user]
     end
 
+    test "get_user!/1 returns the user with given id" do
+      user = user_fixture(@valid_attrs)
+      assert Accounts.get_user!(user.id) == user
+    end
+
     test "get_user!/1 returns the user and credentials with given id" do
       user = user_fixture(@valid_with_credentials_attrs)
-      assert Accounts.get_user!(user.id) == user
+      
+      user_account = Accounts.get_user!(user.id)
+      assert user_account.name == "Edgar Pino"
+      assert user_account.credential.email == @valid_with_credentials_attrs.credential.email
+      assert user_account.credential.password_hash == user.credential.password_hash
     end
 
     test "create_user/1 with valid data and credentials" do
       assert {:ok, %User{} = user} = Accounts.create_user(@valid_with_credentials_attrs)
-
       assert user.name == "Edgar Pino"
       assert user.credential.email == @valid_with_credentials_attrs.credential.email
-      assert user.credential.password_hash == @valid_with_credentials_attrs.credential.password_hash
+      assert user.credential.password_hash != nil
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -51,7 +62,7 @@ defmodule Katas.AccountsTest do
     end
 
     test "update_user/2 with invalid data returns error changeset" do
-      user = user_fixture() |> Repo.preload(:credential)
+      user = user_fixture()
       assert {:error, %Ecto.Changeset{}} = Accounts.update_user(user, @invalid_attrs)
       assert user == Accounts.get_user!(user.id)
     end
@@ -71,9 +82,9 @@ defmodule Katas.AccountsTest do
   describe "credentials" do
     alias Katas.Accounts.Credential
 
-    @valid_attrs %{email: "test@me.com", password_hash: "some password_hash"}
-    @update_attrs %{email: "b@test.com", password_hash: "some updated password_hash"}
-    @invalid_attrs %{email: nil, password_hash: nil}
+    @valid_attrs %{email: "test@me.com", password: "edgar pino"}
+    @update_attrs %{email: "b@test.com", password: "edgar12345"}
+    @invalid_attrs %{email: nil, password: nil}
 
     def credential_fixture(attrs \\ %{}) do
       {:ok, credential} =
@@ -84,15 +95,10 @@ defmodule Katas.AccountsTest do
       credential
     end
 
-    test "get_credential!/1 returns the credential with given id" do
-      credential = credential_fixture()
-      assert Accounts.get_credential!(credential.id) == credential
-    end
-
     test "create_credential/1 with valid data creates a credential" do
       assert {:ok, %Credential{} = credential} = Accounts.create_credential(@valid_attrs)
       assert credential.email == "test@me.com"
-      assert credential.password_hash == "some password_hash"
+      assert credential.password_hash == "hashedpassword"
     end
 
     test "create_credential/1 with invalid data returns error changeset" do
@@ -104,13 +110,16 @@ defmodule Katas.AccountsTest do
       assert {:ok, credential} = Accounts.update_credential(credential, @update_attrs)
       assert %Credential{} = credential
       assert credential.email == "b@test.com"
-      assert credential.password_hash == "some updated password_hash"
+      assert credential.password_hash == "hashedpassword"
     end
 
     test "update_credential/2 with invalid data returns error changeset" do
       credential = credential_fixture()
       assert {:error, %Ecto.Changeset{}} = Accounts.update_credential(credential, @invalid_attrs)
-      assert credential == Accounts.get_credential!(credential.id)
+
+      credentials_record = Accounts.get_credential!(credential.id)
+      assert credential.email == credentials_record.email
+      assert credential.password_hash == credentials_record.password_hash
     end
 
     test "delete_credential/1 deletes the credential" do

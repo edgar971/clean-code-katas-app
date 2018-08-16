@@ -18,6 +18,7 @@ defmodule Katas.Accounts do
   """
   def list_users do
     Repo.all(User)
+    |> Repo.preload(:credential)
   end
 
   @doc """
