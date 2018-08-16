@@ -1,7 +1,7 @@
 defmodule KatasWeb.Auth.Guardian do
   @moduledoc false
 
-  use Guardian, otp_app: :rumbl
+  use Guardian, otp_app: :clean_code_katas_web
 
   alias Katas.Accounts
 

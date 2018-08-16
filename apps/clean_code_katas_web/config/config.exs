@@ -26,7 +26,7 @@ config :logger, :console,
 config :clean_code_katas_web, :generators,
   context_app: :clean_code_katas
 
-  config :rumbl, KatasWeb.Auth.Guardian,
+  config :clean_code_katas_web, KatasWeb.Auth.Guardian,
   issuer: "katasweb",
   secret_key: "HNinpKh9Ne3tr8BpjCpAEh0xzCqTIG3PWsfkR2AtzvUaRIpbs6oIQ9RcmjmGPepB"
 
