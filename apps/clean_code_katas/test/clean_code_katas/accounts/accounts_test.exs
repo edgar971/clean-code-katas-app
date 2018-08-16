@@ -1,0 +1,127 @@
+defmodule Katas.AccountsTest do
+  use Katas.DataCase
+
+  alias Katas.Accounts
+  alias Katas.Repo
+
+  describe "users" do
+    alias Katas.Accounts.User
+
+    @valid_attrs %{name: "Edgar Pino"}
+    @valid_with_credentials_attrs %{name: "Edgar Pino", credential: %{email: "test@me.com", password_hash: "123456"}}
+    @update_attrs %{name: "Edgar Beltran"}
+    @invalid_attrs %{name: nil}
+
+    def user_fixture(attrs \\ %{}) do
+      {:ok, user} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Accounts.create_user()
+
+      user
+    end
+
+    test "list_users/0 returns all users" do
+      user = user_fixture()
+      assert Accounts.list_users() == [user]
+    end
+
+    test "get_user!/1 returns the user and credentials with given id" do
+      user = user_fixture(@valid_with_credentials_attrs)
+      assert Accounts.get_user!(user.id) == user
+    end
+
+    test "create_user/1 with valid data and credentials" do
+      assert {:ok, %User{} = user} = Accounts.create_user(@valid_with_credentials_attrs)
+
+      assert user.name == "Edgar Pino"
+      assert user.credential.email == @valid_with_credentials_attrs.credential.email
+      assert user.credential.password_hash == @valid_with_credentials_attrs.credential.password_hash
+    end
+
+    test "create_user/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_user(@invalid_attrs)
+    end
+
+    test "update_user/2 with valid data updates the user" do
+      user = user_fixture()
+      assert {:ok, user} = Accounts.update_user(user, @update_attrs)
+      assert %User{} = user
+      assert user.name == "Edgar Beltran"
+    end
+
+    test "update_user/2 with invalid data returns error changeset" do
+      user = user_fixture() |> Repo.preload(:credential)
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_user(user, @invalid_attrs)
+      assert user == Accounts.get_user!(user.id)
+    end
+
+    test "delete_user/1 deletes the user" do
+      user = user_fixture()
+      assert {:ok, %User{}} = Accounts.delete_user(user)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_user!(user.id) end
+    end
+
+    test "change_user/1 returns a user changeset" do
+      user = user_fixture()
+      assert %Ecto.Changeset{} = Accounts.change_user(user)
+    end
+  end
+
+  describe "credentials" do
+    alias Katas.Accounts.Credential
+
+    @valid_attrs %{email: "test@me.com", password_hash: "some password_hash"}
+    @update_attrs %{email: "b@test.com", password_hash: "some updated password_hash"}
+    @invalid_attrs %{email: nil, password_hash: nil}
+
+    def credential_fixture(attrs \\ %{}) do
+      {:ok, credential} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Accounts.create_credential()
+
+      credential
+    end
+
+    test "get_credential!/1 returns the credential with given id" do
+      credential = credential_fixture()
+      assert Accounts.get_credential!(credential.id) == credential
+    end
+
+    test "create_credential/1 with valid data creates a credential" do
+      assert {:ok, %Credential{} = credential} = Accounts.create_credential(@valid_attrs)
+      assert credential.email == "test@me.com"
+      assert credential.password_hash == "some password_hash"
+    end
+
+    test "create_credential/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_credential(@invalid_attrs)
+    end
+
+    test "update_credential/2 with valid data updates the credential" do
+      credential = credential_fixture()
+      assert {:ok, credential} = Accounts.update_credential(credential, @update_attrs)
+      assert %Credential{} = credential
+      assert credential.email == "b@test.com"
+      assert credential.password_hash == "some updated password_hash"
+    end
+
+    test "update_credential/2 with invalid data returns error changeset" do
+      credential = credential_fixture()
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_credential(credential, @invalid_attrs)
+      assert credential == Accounts.get_credential!(credential.id)
+    end
+
+    test "delete_credential/1 deletes the credential" do
+      credential = credential_fixture()
+      assert {:ok, %Credential{}} = Accounts.delete_credential(credential)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_credential!(credential.id) end
+    end
+
+    test "change_credential/1 returns a credential changeset" do
+      credential = credential_fixture()
+      assert %Ecto.Changeset{} = Accounts.change_credential(credential)
+    end
+  end
+end
