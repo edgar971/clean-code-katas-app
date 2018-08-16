@@ -26,10 +26,6 @@ config :logger, :console,
 config :clean_code_katas_web, :generators,
   context_app: :clean_code_katas
 
-  config :clean_code_katas_web, KatasWeb.Auth.Guardian,
-  issuer: "katasweb",
-  secret_key: "HNinpKh9Ne3tr8BpjCpAEh0xzCqTIG3PWsfkR2AtzvUaRIpbs6oIQ9RcmjmGPepB"
-
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
