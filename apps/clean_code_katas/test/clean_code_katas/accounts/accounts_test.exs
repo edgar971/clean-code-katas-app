@@ -10,7 +10,7 @@ defmodule Katas.AccountsTest do
     @valid_attrs %{name: "Edgar Pino"}
     @valid_with_credentials_attrs %{
       name: "Edgar Pino",
-      credential: %{email: "test@me.com", password: "12345678910"}
+      credential: %{email: "test@me.com", password_hash: "12345678910"}
     }
     @update_attrs %{name: "Edgar Beltran"}
     @invalid_attrs %{name: nil}
@@ -40,14 +40,14 @@ defmodule Katas.AccountsTest do
       user_account = Accounts.get_user!(user.id)
       assert user_account.name == "Edgar Pino"
       assert user_account.credential.email == @valid_with_credentials_attrs.credential.email
-      assert user_account.credential.password_hash == user.credential.password_hash
+      assert user_account.credential.password_hash == @valid_with_credentials_attrs.credential.password_hash
     end
 
     test "create_user/1 with valid data and credentials" do
       assert {:ok, %User{} = user} = Accounts.create_user(@valid_with_credentials_attrs)
       assert user.name == "Edgar Pino"
       assert user.credential.email == @valid_with_credentials_attrs.credential.email
-      assert user.credential.password_hash != nil
+      assert user.credential.password_hash == @valid_with_credentials_attrs.credential.password_hash
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -82,9 +82,9 @@ defmodule Katas.AccountsTest do
   describe "credentials" do
     alias Katas.Accounts.Credential
 
-    @valid_attrs %{email: "test@me.com", password: "edgar pino"}
-    @update_attrs %{email: "b@test.com", password: "edgar12345"}
-    @invalid_attrs %{email: nil, password: nil}
+    @valid_attrs %{email: "test@me.com", password_hash: "edgar pino"}
+    @update_attrs %{email: "b@test.com", password_hash: "edgar12345"}
+    @invalid_attrs %{email: nil, password_hash: nil}
 
     def credential_fixture(attrs \\ %{}) do
       {:ok, credential} =
@@ -98,7 +98,7 @@ defmodule Katas.AccountsTest do
     test "create_credential/1 with valid data creates a credential" do
       assert {:ok, %Credential{} = credential} = Accounts.create_credential(@valid_attrs)
       assert credential.email == "test@me.com"
-      assert credential.password_hash == "hashedpassword"
+      assert credential.password_hash == @valid_attrs.password_hash
     end
 
     test "create_credential/1 with invalid data returns error changeset" do
@@ -110,7 +110,7 @@ defmodule Katas.AccountsTest do
       assert {:ok, credential} = Accounts.update_credential(credential, @update_attrs)
       assert %Credential{} = credential
       assert credential.email == "b@test.com"
-      assert credential.password_hash == "hashedpassword"
+      assert credential.password_hash == @update_attrs.password_hash
     end
 
     test "update_credential/2 with invalid data returns error changeset" do
