@@ -45,7 +45,8 @@ defmodule KatasWeb.Mixfile do
       {:gettext, "~> 0.11"},
       {:clean_code_katas, in_umbrella: true},
       {:cowboy, "~> 1.0"}, 
-      {:ueberauth_github, "~> 0.7"}
+      {:ueberauth_github, "~> 0.7"},
+      {:ex_machina, "~> 2.2", only: :test}
     ]
   end
 

@@ -1,6 +1,7 @@
 defmodule KatasWeb.AuthControllerTest do
   use KatasWeb.ConnCase
   alias Katas.Accounts
+  import KatasWeb.Factory
 
   @ueberauth_auth %{
     credentials: %{token: "ldoeorufhmdodptoken"},
@@ -26,5 +27,16 @@ defmodule KatasWeb.AuthControllerTest do
 
     assert Enum.count(Accounts.list_users()) == 1
     assert get_flash(conn, :info) == "Thank you for singing in with Github!"
+  end
+
+  test "signs out user", %{conn: conn} do
+    user = insert(:user)
+
+    conn = conn
+    |> assign(:user, user)
+    |> get("/auth/signout")
+    |> get("/")
+    
+    assert conn.assigns.user == nil
   end
 end

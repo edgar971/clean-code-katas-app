@@ -27,4 +27,10 @@ defmodule KatasWeb.AuthController do
         |> redirect(to: page_path(conn, :index))
     end
   end
+
+  def delete(conn, _params) do
+    conn
+    |> configure_session(drop: true)
+    |> redirect(to: page_path(conn, :index))
+  end
 end

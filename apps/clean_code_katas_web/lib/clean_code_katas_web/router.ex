@@ -7,6 +7,7 @@ defmodule KatasWeb.Router do
     plug(:fetch_flash)
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+    plug(KatasWeb.Plugs.SetAuthUser)
   end
 
   pipeline :api do
@@ -24,6 +25,7 @@ defmodule KatasWeb.Router do
   scope "/auth", KatasWeb do
     pipe_through(:browser)
 
+    get "/signout", AuthController, :delete
     get("/github", AuthController, :request)
     get("/github/callback", AuthController, :callback)
   end

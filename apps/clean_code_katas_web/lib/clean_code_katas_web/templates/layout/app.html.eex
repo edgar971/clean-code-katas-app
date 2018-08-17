@@ -17,7 +17,12 @@
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
             <li>
-            <%= link "Sign in with Github", to: auth_path(@conn, :request) %>
+            <%= if @conn.assigns[:user] do %>
+              Welcome, <%= @conn.assigns.user.name %>!
+              <%= link "Sign out", to: auth_path(@conn, :delete), class: "button alert" %>
+            <% else %>
+              <%= link "Sign in with Github", to: auth_path(@conn, :request) %>
+            <% end %>
             </li>
           </ul>
         </nav>
