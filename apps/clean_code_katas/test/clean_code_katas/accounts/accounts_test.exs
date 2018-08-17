@@ -14,7 +14,7 @@ defmodule Katas.AccountsTest do
     }
     @update_attrs %{name: "Edgar Beltran"}
     @invalid_attrs %{name: nil}
-  
+
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =
         attrs
@@ -36,12 +36,48 @@ defmodule Katas.AccountsTest do
 
     test "get_user!/1 returns the user and credentials with given id" do
       user = user_fixture(@valid_with_credentials_attrs)
-      
+
       user_account = Accounts.get_user!(user.id)
       assert user_account.name == "Edgar Pino"
       assert user_account.credential.email == @valid_with_credentials_attrs.credential.email
       assert user_account.credential.token == @valid_with_credentials_attrs.credential.token
       assert user_account.credential.provider == @valid_with_credentials_attrs.credential.provider
+    end
+
+    test "get_user_by_email/1 returns the user given an email" do
+      existing_user = user_fixture(@valid_with_credentials_attrs)
+      
+      assert %User{} = user = Accounts.get_user_by_email(existing_user.credential.email)
+      assert user.credential.email == existing_user.credential.email
+      assert user.credential.token == existing_user.credential.token
+      assert user.credential.provider == existing_user.credential.provider
+    end
+
+    test "get_user_by_email/1 returns nil given non-existing email" do
+      assert Accounts.get_user_by_email("test@me.com") == nil
+    end
+
+    test "create_or_update_user/1 with valid data and credentials for new user" do
+      assert {:ok, %User{} = user} = Accounts.create_or_update_user(@valid_with_credentials_attrs)
+      assert user.credential.email == @valid_with_credentials_attrs.credential.email
+      assert user.credential.token == @valid_with_credentials_attrs.credential.token
+      assert user.credential.provider == @valid_with_credentials_attrs.credential.provider
+    end
+
+    test "create_or_update_user/1 with valid data and credentials for existing user" do
+      existing_user = user_fixture(@valid_with_credentials_attrs)
+
+      updated_user = %{
+        @valid_with_credentials_attrs
+        | credential: %{@valid_with_credentials_attrs.credential | token: "sometoken"}
+      }
+
+      assert {:ok, %User{} = user} = Accounts.create_or_update_user(updated_user)
+
+      assert user.id == existing_user.id
+      assert user.credential.email == @valid_with_credentials_attrs.credential.email
+      assert user.credential.token == updated_user.credential.token
+      assert user.credential.provider == @valid_with_credentials_attrs.credential.provider
     end
 
     test "create_user/1 with valid data and credentials" do

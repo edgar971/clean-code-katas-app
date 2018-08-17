@@ -35,12 +35,21 @@ defmodule Katas.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id) do 
-    User 
+  def get_user!(id) do
+    User
     |> Repo.get!(id)
     |> Repo.preload(:credential)
   end
 
+  def get_user_by_email(email) do
+    from(
+      u in User,
+      inner_join: c in assoc(u, :credential),
+      where: c.email == ^email,
+      preload: [:credential]
+    )
+    |> Repo.one()
+  end
 
   @doc """
   Creates a user.
@@ -107,6 +116,30 @@ defmodule Katas.Accounts do
   """
   def change_user(%User{} = user) do
     User.changeset(user, %{})
+  end
+
+  @doc """
+  Creates or updates a user.
+
+  ## Examples
+
+      iex> create_or_update_user(%{field: value})
+      {:ok, %User{}}
+
+      iex> create_or_update_user(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_or_update_user(attrs \\ %{}) do
+    case get_user_by_email(attrs.credential.email) do
+      %User{} = user ->
+        user
+        |> update_user(%{credential: %{id: user.credential.id, token: attrs.credential.token}})
+
+      nil ->
+        attrs
+        |> create_user
+    end
   end
 
   alias Katas.Accounts.Credential
