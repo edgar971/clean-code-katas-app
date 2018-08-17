@@ -46,7 +46,7 @@ defmodule Katas.AccountsTest do
 
     test "get_user_by_email/1 returns the user given an email" do
       existing_user = user_fixture(@valid_with_credentials_attrs)
-      
+
       assert %User{} = user = Accounts.get_user_by_email(existing_user.credential.email)
       assert user.credential.email == existing_user.credential.email
       assert user.credential.token == existing_user.credential.token

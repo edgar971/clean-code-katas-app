@@ -26,13 +26,13 @@ defmodule KatasWeb.ConnCase do
     end
   end
 
-
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Katas.Repo)
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(Katas.Repo, {:shared, self()})
     end
+
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
-
 end

@@ -12,8 +12,12 @@ defmodule Katas.Application do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
-    Supervisor.start_link([
-      supervisor(Katas.Repo, []),
-    ], strategy: :one_for_one, name: Katas.Supervisor)
+    Supervisor.start_link(
+      [
+        supervisor(Katas.Repo, [])
+      ],
+      strategy: :one_for_one,
+      name: Katas.Supervisor
+    )
   end
 end

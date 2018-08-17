@@ -25,7 +25,7 @@ defmodule KatasWeb.Router do
   scope "/auth", KatasWeb do
     pipe_through(:browser)
 
-    get "/signout", AuthController, :delete
+    get("/signout", AuthController, :delete)
     get("/github", AuthController, :request)
     get("/github/callback", AuthController, :callback)
   end

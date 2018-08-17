@@ -4,8 +4,8 @@ defmodule Katas.Accounts.User do
   alias Katas.Accounts.Credential
 
   schema "users" do
-    field :name, :string
-    has_one :credential, Credential
+    field(:name, :string)
+    has_one(:credential, Credential)
 
     timestamps()
   end

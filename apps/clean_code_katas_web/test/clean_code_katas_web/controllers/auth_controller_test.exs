@@ -32,11 +32,12 @@ defmodule KatasWeb.AuthControllerTest do
   test "signs out user", %{conn: conn} do
     user = insert(:user)
 
-    conn = conn
-    |> assign(:user, user)
-    |> get("/auth/signout")
-    |> get("/")
-    
+    conn =
+      conn
+      |> assign(:user, user)
+      |> get("/auth/signout")
+      |> get("/")
+
     assert conn.assigns.user == nil
   end
 end

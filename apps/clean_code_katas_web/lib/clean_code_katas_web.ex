@@ -28,8 +28,9 @@ defmodule KatasWeb do
 
   def view do
     quote do
-      use Phoenix.View, root: "lib/clean_code_katas_web/templates",
-                        namespace: KatasWeb
+      use Phoenix.View,
+        root: "lib/clean_code_katas_web/templates",
+        namespace: KatasWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
