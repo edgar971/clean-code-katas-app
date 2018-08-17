@@ -24,7 +24,7 @@ defmodule KatasWeb.Mixfile do
   def application do
     [
       mod: {KatasWeb.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :ueberauth_github]
     ]
   end
 
@@ -44,7 +44,8 @@ defmodule KatasWeb.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:clean_code_katas, in_umbrella: true},
-      {:cowboy, "~> 1.0"}
+      {:cowboy, "~> 1.0"}, 
+      {:ueberauth_github, "~> 0.7"}
     ]
   end
 
