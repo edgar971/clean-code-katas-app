@@ -10,7 +10,7 @@ defmodule Katas.AccountsTest do
     @valid_attrs %{name: "Edgar Pino"}
     @valid_with_credentials_attrs %{
       name: "Edgar Pino",
-      credential: %{email: "test@me.com", password_hash: "12345678910"}
+      credential: %{email: "test@me.com", token: "12345678910", provider: "github"}
     }
     @update_attrs %{name: "Edgar Beltran"}
     @invalid_attrs %{name: nil}
@@ -40,14 +40,16 @@ defmodule Katas.AccountsTest do
       user_account = Accounts.get_user!(user.id)
       assert user_account.name == "Edgar Pino"
       assert user_account.credential.email == @valid_with_credentials_attrs.credential.email
-      assert user_account.credential.password_hash == @valid_with_credentials_attrs.credential.password_hash
+      assert user_account.credential.token == @valid_with_credentials_attrs.credential.token
+      assert user_account.credential.provider == @valid_with_credentials_attrs.credential.provider
     end
 
     test "create_user/1 with valid data and credentials" do
       assert {:ok, %User{} = user} = Accounts.create_user(@valid_with_credentials_attrs)
       assert user.name == "Edgar Pino"
       assert user.credential.email == @valid_with_credentials_attrs.credential.email
-      assert user.credential.password_hash == @valid_with_credentials_attrs.credential.password_hash
+      assert user.credential.token == @valid_with_credentials_attrs.credential.token
+      assert user.credential.provider == @valid_with_credentials_attrs.credential.provider
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -82,9 +84,9 @@ defmodule Katas.AccountsTest do
   describe "credentials" do
     alias Katas.Accounts.Credential
 
-    @valid_attrs %{email: "test@me.com", password_hash: "edgar pino"}
-    @update_attrs %{email: "b@test.com", password_hash: "edgar12345"}
-    @invalid_attrs %{email: nil, password_hash: nil}
+    @valid_attrs %{email: "test@me.com", token: "dfdfdfdfd", provider: "github"}
+    @update_attrs %{email: "b@test.com", token: "dfldodie3s", provider: "github"}
+    @invalid_attrs %{email: nil, token: nil, provider: nil}
 
     def credential_fixture(attrs \\ %{}) do
       {:ok, credential} =
@@ -98,7 +100,8 @@ defmodule Katas.AccountsTest do
     test "create_credential/1 with valid data creates a credential" do
       assert {:ok, %Credential{} = credential} = Accounts.create_credential(@valid_attrs)
       assert credential.email == "test@me.com"
-      assert credential.password_hash == @valid_attrs.password_hash
+      assert credential.token == @valid_attrs.token
+      assert credential.provider == @valid_attrs.provider
     end
 
     test "create_credential/1 with invalid data returns error changeset" do
@@ -110,7 +113,8 @@ defmodule Katas.AccountsTest do
       assert {:ok, credential} = Accounts.update_credential(credential, @update_attrs)
       assert %Credential{} = credential
       assert credential.email == "b@test.com"
-      assert credential.password_hash == @update_attrs.password_hash
+      assert credential.token == @update_attrs.token
+      assert credential.provider == @update_attrs.provider
     end
 
     test "update_credential/2 with invalid data returns error changeset" do
@@ -119,7 +123,7 @@ defmodule Katas.AccountsTest do
 
       credentials_record = Accounts.get_credential!(credential.id)
       assert credential.email == credentials_record.email
-      assert credential.password_hash == credentials_record.password_hash
+      assert credential.token == credentials_record.token
     end
 
     test "delete_credential/1 deletes the credential" do

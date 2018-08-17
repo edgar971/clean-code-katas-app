@@ -5,7 +5,8 @@ defmodule Katas.Accounts.Credential do
 
   schema "credentials" do
     field(:email, :string)
-    field(:password_hash, :string)
+    field(:token, :string)
+    field(:provider, :string)
     belongs_to(:user, User)
 
     timestamps()
@@ -14,8 +15,8 @@ defmodule Katas.Accounts.Credential do
   @doc false
   def changeset(credential, attrs) do
     credential
-    |> cast(attrs, [:email, :password_hash])
-    |> validate_required([:email, :password_hash])
+    |> cast(attrs, [:email, :token, :provider])
+    |> validate_required([:email, :token, :provider])
     |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
   end
