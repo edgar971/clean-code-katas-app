@@ -18,7 +18,7 @@ defmodule KatasWeb.AuthController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Thank you for singing in with Github!")
-        |> put_session(:user, user)
+        |> put_session(:user_id, user.id)
         |> redirect(to: page_path(conn, :index))
 
       {:error, _reason} ->
