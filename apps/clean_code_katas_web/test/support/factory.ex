@@ -15,4 +15,8 @@ defmodule KatasWeb.Factory do
       credential: build(:credential)
     }
   end
+
+  def solutions_factory do
+    %Katas.Challenges.Solution{}
+  end
 end

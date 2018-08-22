@@ -7,8 +7,7 @@ defmodule Katas.Accounts.User do
   schema "users" do
     field(:name, :string)
     has_one(:credential, Credential)
-    # TODO: Finish implementing
-    # has_many(:solutions, Solution)
+    has_many(:solutions, Solution)
 
     timestamps()
   end
