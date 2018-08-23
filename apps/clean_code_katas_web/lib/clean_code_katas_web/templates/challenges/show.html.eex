@@ -1,0 +1,2 @@
+<h2><%= @challenge.title %></h2>
+<p><%= @challenge.description %></p>

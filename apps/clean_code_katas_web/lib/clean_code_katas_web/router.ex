@@ -20,6 +20,8 @@ defmodule KatasWeb.Router do
 
     get("/", PageController, :index)
     get("/login", AuthController, :index)
+    get("/challenges", ChallengesController, :index)
+    get("/challenges/:id", ChallengesController, :show)
   end
 
   scope "/auth", KatasWeb do

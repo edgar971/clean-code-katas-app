@@ -1,6 +1,15 @@
 defmodule KatasWeb.Factory do
   use ExMachina.Ecto, repo: Katas.Repo
 
+  def challenge_factory do
+    %Katas.Challenges.Challenge{
+      description:
+        "This challenge is to do that and this. In order to do that you need to understand this. Good luck!",
+      level: "Beginner",
+      title: "Some cool challenge"
+    }
+  end
+
   def credential_factory do
     %Katas.Accounts.Credential{
       email: "tony@stark.com",
