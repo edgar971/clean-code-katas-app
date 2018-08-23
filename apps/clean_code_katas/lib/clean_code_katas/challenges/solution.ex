@@ -5,8 +5,8 @@ defmodule Katas.Challenges.Solution do
   alias Katas.Accounts.User
 
   schema "solutions" do
-    field :code, :string
-    field :description, :string
+    field(:code, :string)
+    field(:description, :string)
     belongs_to(:user, User)
     belongs_to(:challenge, Challenge)
 

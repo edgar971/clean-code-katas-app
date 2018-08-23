@@ -12,8 +12,7 @@ defmodule KatasWeb.Factory do
 
   def solution_factory do
     %Katas.Challenges.Solution{
-      description:
-        "I did this because I thought it was cool",
+      description: "I did this because I thought it was cool",
       code: "function hello() {\n\talert('Hello world!');\n}",
       user: build(:user),
       challenge: build(:challenge)

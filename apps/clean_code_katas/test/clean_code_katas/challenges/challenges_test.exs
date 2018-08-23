@@ -7,7 +7,11 @@ defmodule Katas.ChallengesTest do
     alias Katas.Challenges.Challenge
 
     @valid_attrs %{description: "some description", level: "some level", title: "some title"}
-    @update_attrs %{description: "some updated description", level: "some updated level", title: "some updated title"}
+    @update_attrs %{
+      description: "some updated description",
+      level: "some updated level",
+      title: "some updated title"
+    }
     @invalid_attrs %{description: nil, level: nil, title: nil}
 
     def challenge_fixture(attrs \\ %{}) do

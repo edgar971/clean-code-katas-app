@@ -4,9 +4,9 @@ defmodule Katas.Challenges.Challenge do
   alias Katas.Challenges.Solution
 
   schema "challenges" do
-    field :description, :string
-    field :level, :string
-    field :title, :string
+    field(:description, :string)
+    field(:level, :string)
+    field(:title, :string)
     has_many(:solutions, Solution)
 
     timestamps()
