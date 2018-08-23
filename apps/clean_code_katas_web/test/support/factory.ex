@@ -10,6 +10,16 @@ defmodule KatasWeb.Factory do
     }
   end
 
+  def solution_factory do
+    %Katas.Challenges.Solution{
+      description:
+        "I did this because I thought it was cool",
+      code: "function hello() {\n\talert('Hello world!');\n}",
+      user: build(:user),
+      challenge: build(:challenge)
+    }
+  end
+
   def credential_factory do
     %Katas.Accounts.Credential{
       email: "tony@stark.com",

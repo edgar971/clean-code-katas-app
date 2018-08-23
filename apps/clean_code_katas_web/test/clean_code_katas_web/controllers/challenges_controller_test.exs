@@ -14,4 +14,10 @@ defmodule KatasWeb.ChallengesControllerTest do
     conn = get(conn, challenges_path(conn, :show, challenge.id))
     assert html_response(conn, 200) =~ challenge.description
   end
+
+  test "GET /challenges/:id with solutions", %{conn: conn} do
+    solution = insert(:solution)
+    conn = get(conn, challenges_path(conn, :show, solution.challenge.id))
+    assert html_response(conn, 200) =~ solution.description
+  end
 end
