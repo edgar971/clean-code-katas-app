@@ -1,4 +1,5 @@
-# Katas.Umbrella
+# Clean Code Katas
+Web backend logic and front-end
 
 TODO: 
 [ ] Add Challenges feature
