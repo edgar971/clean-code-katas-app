@@ -18,7 +18,7 @@
       <div class="container">
       <div class="navbar-brand">
         <a class="navbar-item" href="/">
-          <h1>Clean Code Katas</h1>
+          <img src="/images/logo.png" alt="Clean Code Katas" >
         </a>
       </div>
        <div id="navbarExampleTransparentExample" class="navbar-menu">
