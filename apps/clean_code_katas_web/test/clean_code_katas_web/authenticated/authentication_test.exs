@@ -10,6 +10,6 @@ defmodule KatasWeb.AuthenticatedTest do
       |> assign(:user, user)
       |> get("/")
 
-    assert html_response(conn, 200) =~ "Sign out"
+    assert html_response(conn, 200) =~ "Log out"
   end
 end

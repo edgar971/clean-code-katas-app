@@ -35,8 +35,8 @@
             <div class="field is-grouped">
               <p class="control">
               <%= if @conn.assigns[:user] do %>
-                Welcome, <%= @conn.assigns.user.name %>!
-              <%= link "Sign out", to: auth_path(@conn, :delete) %>
+                <i class="fas fa-user"></i> <%= @conn.assigns.user.name %>
+              <%= link "(Log out)", to: auth_path(@conn, :delete) %>
               <% else %>
                 <%= link to: auth_path(@conn, :request), class: "bd-tw-button button has-background-primary	has-text-white-bis" do %>
                   <span class="icon">
