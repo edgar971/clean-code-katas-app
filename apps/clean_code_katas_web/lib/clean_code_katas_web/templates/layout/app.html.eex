@@ -25,9 +25,15 @@
     <div class="navbar-start">
       <%= link to: challenges_path(@conn, :index), class: "navbar-item" do %>
           <span class="icon has-text-danger">
-            <i class="fas fa-code"></i>
+            <i class="fas fa-bolt"></i>
           </span>
           <span>Challenges</span>
+      <% end %>
+      <%= link to: challenges_path(@conn, :index), class: "navbar-item" do %>
+          <span class="icon has-text-danger">
+            <i class="fas fa-list-ul"></i>
+          </span>
+          <span>Leaderboard</span>
       <% end %>
     </div>
         <div class="navbar-end">
@@ -61,6 +67,13 @@
     <main>
       <%= render @view_module, @view_template, assigns %>
     </main>
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          <strong>Clean Code Katas</strong> by <a href="https://edgarpino.com">Edgar Pino</a>
+        </p>
+      </div>
+    </footer>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
