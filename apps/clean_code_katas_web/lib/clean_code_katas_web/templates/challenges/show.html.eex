@@ -1,13 +1,17 @@
-<h2><%= @challenge.title %></h2>
-<p><%= @challenge.description %></p>
-<h3>Solutions</h3>
-<ul>
-<%= for solution <- @challenge.solutions do %>
-  <li>
-    <p><%= solution.description  %></p>
-    <pre>
-      <%= solution.code  %>
-    </pre>
-  </li>
-<% end %>
-</ul>
+<section class="section">
+  <div class="container">
+  <h2><%= @challenge.title %></h2>
+  <p><%= @challenge.description %></p>
+  <h3>Solutions</h3>
+  <ul>
+  <%= for solution <- @challenge.solutions do %>
+    <li>
+      <p><%= solution.description  %></p>
+      <pre>
+        <%= solution.code  %>
+      </pre>
+    </li>
+  <% end %>
+  </ul>
+</div>
+</div>

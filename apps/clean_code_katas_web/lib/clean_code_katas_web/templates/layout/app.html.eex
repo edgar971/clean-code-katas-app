@@ -8,35 +8,59 @@
     <meta name="author" content="">
 
     <title>Clean Code Katas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
   <body>
-    <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li>
-            <%= if @conn.assigns[:user] do %>
-              Welcome, <%= @conn.assigns.user.name %>!
-              <%= link "Sign out", to: auth_path(@conn, :delete), class: "button alert" %>
-            <% else %>
-              <%= link "Sign in with Github", to: auth_path(@conn, :request) %>
-            <% end %>
-            </li>
-          </ul>
-        </nav>
-        <h1>Clean Code Katas</h1>
-      </header>
-
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-
-      <main role="main">
-        <%= render @view_module, @view_template, assigns %>
-      </main>
-
-    </div> <!-- /container -->
+    <nav class="navbar is-transparent  is-spaced has-shadow">
+      <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+          <h1>Clean Code Katas</h1>
+        </a>
+      </div>
+       <div id="navbarExampleTransparentExample" class="navbar-menu">
+    <div class="navbar-start">
+      <%= link to: challenges_path(@conn, :index), class: "navbar-item" do %>
+          <span class="icon has-text-danger">
+            <i class="fas fa-code"></i>
+          </span>
+          <span>Challenges</span>
+      <% end %>
+    </div>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="field is-grouped">
+              <p class="control">
+              <%= if @conn.assigns[:user] do %>
+                Welcome, <%= @conn.assigns.user.name %>!
+              <%= link "Sign out", to: auth_path(@conn, :delete) %>
+              <% else %>
+                <%= link to: auth_path(@conn, :request), class: "bd-tw-button button has-background-primary	has-text-white-bis" do %>
+                  <span class="icon">
+                    <i class="fab fa-twitter"></i>
+                  </span>
+                  <span>
+                    Login or Register
+                  </span>
+                <% end %>
+              <% end %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </nav>
+      <div class="container">
+        <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+        <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      </div> <!-- /container -->
+    <main>
+      <%= render @view_module, @view_template, assigns %>
+    </main>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

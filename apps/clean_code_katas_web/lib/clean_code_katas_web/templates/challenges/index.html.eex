@@ -1,12 +1,36 @@
-<h1>Challenges</h1>
+<section class="hero is-primary">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Challenges
+      </h1>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+   <table class="table is-bordered is-fullwidth">
+      <thead>
+      <tr>
+        <th><abbr title="Challenge Level">Level</abbr></th>
+        <th><abbr title="Title">Title</abbr></th>
+        <th><abbr title="Description">Description</abbr></th>
+        <th><abbr title="Number of Solutions"># Solutions</abbr></th>
+      </tr>
+    </thead>
+    <tbody>
+    <%= for challenge <- @challenges do %>
+    <tr>
+        <td><%= challenge.level %></td>
+        <td>
+          <%= link challenge.title, to: challenges_path(@conn, :show, challenge.id) %>
+        </td>
+        <td><%= challenge.description %></td>
+        <td>100</td>
+    </tr>
+      <% end %>
+    </tbody>
+  </table>
+  </div>
+</section>
 
-<ul>
-<%= for challenge <- @challenges do %>
-  <li>
-    <%= link to: challenges_path(@conn, :show, challenge.id) do %>
-      <h3><%= challenge.title %></h3>
-      <p><%= challenge.description %></p>
-    <% end %>
-  </li>
-  <% end %>
-</ul>
