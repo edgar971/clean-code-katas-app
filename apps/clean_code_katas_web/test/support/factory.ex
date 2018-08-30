@@ -21,7 +21,7 @@ defmodule KatasWeb.Factory do
 
   def credential_factory do
     %Katas.Accounts.Credential{
-      email: "tony@stark.com",
+      email: "tony@stark#{Enum.random(0..1000)}.com",
       token: "kdkd0dhdhd",
       provider: "github"
     }

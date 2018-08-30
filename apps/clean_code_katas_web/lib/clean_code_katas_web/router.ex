@@ -10,6 +10,10 @@ defmodule KatasWeb.Router do
     plug(KatasWeb.Plugs.SetAuthUser)
   end
 
+  pipeline :auth do
+    plug KatasWeb.Plugs.RequireAuth
+  end
+
   pipeline :api do
     plug(:accepts, ["json"])
   end
@@ -22,6 +26,12 @@ defmodule KatasWeb.Router do
     get("/login", AuthController, :index)
     get("/challenges", ChallengesController, :index)
     get("/challenges/:id", ChallengesController, :show)
+  end
+
+  scope "/", KatasWeb do
+    pipe_through([:browser, :auth])    
+
+    get("/challenges/:id/solution", ChallengeSolutionsController, :index)
   end
 
   scope "/auth", KatasWeb do

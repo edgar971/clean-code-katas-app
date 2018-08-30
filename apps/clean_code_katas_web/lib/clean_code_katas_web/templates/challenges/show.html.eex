@@ -7,16 +7,16 @@
     </div>
   </div>
 </section>
-<section class="section">
+<section class="section is-solutions-context">
   <div class="container">
     <div class="content">
     <p><%= @challenge.description %></p>
-    <a class="button is-medium is-success">
+    <%= link to: challenge_solutions_path(@conn, :index, @challenge.id), class: "button is-medium is-success is-add-solution-button" do %>
       <span class="icon">
         <i class="fas fa-file-code"></i> 
       </span>
       <span>Submit Solution</span>
-    </a>
+    <% end %>
     </div>
     <h3>Solutions</h3>
     <ul>

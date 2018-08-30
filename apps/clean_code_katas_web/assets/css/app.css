@@ -1,1 +1,6 @@
 /* This file is for your main application css. */
+.is-solutions-context .is-add-solution-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
