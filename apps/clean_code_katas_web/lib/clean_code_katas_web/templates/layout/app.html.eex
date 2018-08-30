@@ -46,7 +46,7 @@
               <% else %>
                 <%= link to: auth_path(@conn, :request), class: "bd-tw-button button has-background-primary	has-text-white-bis" do %>
                   <span class="icon">
-                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-github"></i>
                   </span>
                   <span>
                     Login or Register
