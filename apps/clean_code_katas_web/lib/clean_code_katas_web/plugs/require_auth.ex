@@ -1,7 +1,7 @@
 defmodule KatasWeb.Plugs.RequireAuth do
   import Plug.Conn
   import Phoenix.Controller
-  
+
   alias KatasWeb.Router.Helpers
 
   def init(_params) do

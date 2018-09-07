@@ -16,7 +16,7 @@ defmodule Katas.Challenges.Solution do
   @doc false
   def changeset(solution, attrs) do
     solution
-    |> cast(attrs, [:code, :description])
-    |> validate_required([:code, :description])
+    |> cast(attrs, [:code, :description, :user_id, :challenge_id])
+    |> validate_required([:code, :description, :user_id, :challenge_id])
   end
 end

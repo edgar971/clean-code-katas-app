@@ -4,3 +4,7 @@
   right: 0;
   top: 0;
 }
+
+.ace_editor {
+  height: 400px;
+}

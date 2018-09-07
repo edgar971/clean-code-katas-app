@@ -2,11 +2,29 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title">
-       Submit Your Solution
+       Submitting solution to: <%= @challenge.title %>
       </h1>
     </div>
   </div>
 </section>
 <section class="section">
- 
+  <div class="container">
+    <div class="columns">
+    <%= form_for @conn, challenge_solutions_path(@conn, :index, @challenge.id), [class: "column is-three-fifths is-offset-one-fifth"], fn f -> %>
+      <div class="field">
+        <label class="label">Description</label>
+        <div class="control">
+         <%= textarea(f, :description, class: "textarea", placeholder: "I changed the variable names to make them readable.") %>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Code Solution</label>
+        <div class="control">
+         <%= textarea(f, :code, class: "textarea", id: "is-code-editor", placeholder: "I changed the variable names to make them readable.") %>
+        </div>
+      </div>
+      <%= submit "Submit", class: "button is-primary" %>
+    <% end %>
+    </div>
+  </div>
 </section>

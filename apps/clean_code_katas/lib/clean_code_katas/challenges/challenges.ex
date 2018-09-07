@@ -105,19 +105,6 @@ defmodule Katas.Challenges do
   alias Katas.Challenges.Solution
 
   @doc """
-  Returns the list of solutions.
-
-  ## Examples
-
-      iex> list_solutions()
-      [%Solution{}, ...]
-
-  """
-  def list_solutions do
-    Repo.all(Solution)
-  end
-
-  @doc """
   Gets a single solution.
 
   Raises `Ecto.NoResultsError` if the Solution does not exist.
@@ -131,7 +118,9 @@ defmodule Katas.Challenges do
       ** (Ecto.NoResultsError)
 
   """
-  def get_solution!(id), do: Repo.get!(Solution, id)
+  def get_solution!(id) do
+    Repo.one!(from(s in Solution, where: s.id == ^id, preload: [:user, :challenge]))
+  end
 
   @doc """
   Creates a solution.

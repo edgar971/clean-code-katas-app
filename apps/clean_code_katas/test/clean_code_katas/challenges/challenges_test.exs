@@ -1,6 +1,7 @@
 defmodule Katas.ChallengesTest do
-  use Katas.DataCase
+  import Katas.Factory
 
+  use Katas.DataCase
   alias Katas.Challenges
 
   describe "challenges" do
@@ -79,17 +80,20 @@ defmodule Katas.ChallengesTest do
     @invalid_attrs %{code: nil, description: nil}
 
     def solution_fixture(attrs \\ %{}) do
+      %{id: user_id} = insert(:user)
+      %{id: challenge_id} = insert(:challenge)
+
+      user_and_challenge = %{user_id: user_id, challenge_id: challenge_id}
+
       {:ok, solution} =
-        attrs
+        user_and_challenge
+        |> Enum.into(attrs)
         |> Enum.into(@valid_attrs)
         |> Challenges.create_solution()
 
       solution
-    end
-
-    test "list_solutions/0 returns all solutions" do
-      solution = solution_fixture()
-      assert Challenges.list_solutions() == [solution]
+      |> Repo.preload(:challenge)
+      |> Repo.preload(:user)
     end
 
     test "get_solution!/1 returns the solution with given id" do
@@ -98,9 +102,23 @@ defmodule Katas.ChallengesTest do
     end
 
     test "create_solution/1 with valid data creates a solution" do
-      assert {:ok, %Solution{} = solution} = Challenges.create_solution(@valid_attrs)
+      user = insert(:user)
+      challenge = insert(:challenge)
+
+      solution_changeset = %{
+        code: @valid_attrs.code,
+        description: @valid_attrs.description,
+        user_id: user.id,
+        challenge_id: challenge.id
+      }
+
+      assert {:ok, %Solution{} = solution} = Challenges.create_solution(solution_changeset)
       assert solution.code == "some code"
       assert solution.description == "some description"
+
+      solution_record = Challenges.get_solution!(solution.id)
+      assert solution_record.user.id == user.id
+      assert solution_record.challenge.id == challenge.id
     end
 
     test "create_solution/1 with invalid data returns error changeset" do
