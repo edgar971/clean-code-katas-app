@@ -2,7 +2,7 @@ defmodule KatasWeb.ChallengesController do
   use KatasWeb, :controller
 
   def index(conn, _params) do
-    challenges = Katas.Challenges.list_challenges()
+    challenges = Katas.Challenges.list_challenges_with_solution_count()
     render(conn, "index.html", challenges: challenges)
   end
 

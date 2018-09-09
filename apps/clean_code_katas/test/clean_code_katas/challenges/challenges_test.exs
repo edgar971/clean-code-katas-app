@@ -26,7 +26,24 @@ defmodule Katas.ChallengesTest do
 
     test "list_challenges/0 returns all challenges" do
       challenge = challenge_fixture()
-      assert Challenges.list_challenges() == [challenge]
+      challenges = Challenges.list_challenges()
+      assert challenges == [challenge]
+    end
+
+    test "list_challenges/0 returns all challenges with number of solution" do
+      user = insert(:user)
+      challenge = challenge_fixture()
+
+      %{
+        code: "just code",
+        description: "some description",
+        user_id: user.id,
+        challenge_id: challenge.id
+      }
+      |> Challenges.create_solution()
+
+      challenges = Challenges.list_challenges_with_solution_count()
+      assert challenges == [{challenge, 1}]
     end
 
     test "get_challenge!/1 returns the challenge with given id" do

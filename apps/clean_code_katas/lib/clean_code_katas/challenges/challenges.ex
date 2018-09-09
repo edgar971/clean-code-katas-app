@@ -7,6 +7,7 @@ defmodule Katas.Challenges do
   alias Katas.Repo
 
   alias Katas.Challenges.Challenge
+  alias Katas.Challenges.Solution
 
   @doc """
   Returns the list of challenges.
@@ -18,7 +19,27 @@ defmodule Katas.Challenges do
 
   """
   def list_challenges do
-    Repo.all(Challenge)
+    from(Challenge) |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of challenges with solutions count.
+
+  ## Examples
+
+      iex> list_challenges_with_solution_count()
+      [%Challenge{}, ...]
+
+  """
+  def list_challenges_with_solution_count do
+    from(
+      c in Challenge,
+      left_join: s in Solution,
+      on: s.challenge_id == c.id,
+      group_by: c.id,
+      select: {c, count(s.id)}
+    )
+    |> Repo.all()
   end
 
   @doc """
@@ -101,8 +122,6 @@ defmodule Katas.Challenges do
   def change_challenge(%Challenge{} = challenge) do
     Challenge.changeset(challenge, %{})
   end
-
-  alias Katas.Challenges.Solution
 
   @doc """
   Gets a single solution.

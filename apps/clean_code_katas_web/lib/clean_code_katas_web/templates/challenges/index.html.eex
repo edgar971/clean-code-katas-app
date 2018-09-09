@@ -28,14 +28,14 @@
       </tr>
     </thead>
     <tbody>
-    <%= for challenge <- @challenges do %>
+    <%= for {challenge, number_of_solutions} <- @challenges do %>
     <tr>
         <td><%= challenge.level %></td>
         <td>
           <%= link challenge.title, to: challenges_path(@conn, :show, challenge.id) %>
         </td>
         <td><%= challenge.description %></td>
-        <td>100</td>
+        <td><%= number_of_solutions %></td>
     </tr>
       <% end %>
     </tbody>
