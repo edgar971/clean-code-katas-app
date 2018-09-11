@@ -1,10 +1,10 @@
-/* This file is for your main application css. */
-.is-solutions-context .is-add-solution-button {
-  position: absolute;
-  right: 0;
-  top: 0;
+/* 
+Tabs
+ */
+.tabs-content-wrapper .tab-content {
+  display: none;
 }
 
-.ace_editor {
-  height: 400px;
+.tabs-content-wrapper .tab-content.is-active {
+  display: block;
 }
