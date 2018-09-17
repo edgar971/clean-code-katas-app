@@ -1,7 +1,6 @@
 const TABS_SELECTOR = '.tabs > ul li'
 const ACTIVE_TAB_MENU_SELECTOR = '.tabs .is-active'
 const TAB_CONTENT_WRAPPER_SELECTOR = '.tabs-content-wrapper'
-const TAB_CONTENT_SELECTOR = `${TAB_CONTENT_WRAPPER_SELECTOR} .tab-content`
 const ACTIVE_TAB_CONTENT_SELECTOR = `${TAB_CONTENT_WRAPPER_SELECTOR} .tab-content.is-active`
 const ACTIVE_CLASS = 'is-active'
 
@@ -44,19 +43,19 @@ function tabMenuClickHandler(event) {
   const currentTabMenu = event.currentTarget
 
   if(isTargetTabContentOpen(currentTabMenu)) {
-    return 
+    return
   }
-  
+
 
   const activeTabContent = getActiveTabContent(ACTIVE_TAB_CONTENT_SELECTOR)
   const activeTabMenu = getActiveTabMenu(ACTIVE_TAB_MENU_SELECTOR)
   const currentTabContent = getTargetTabContentElement(currentTabMenu)
-  
+
   activeTabContent.classList.remove(ACTIVE_CLASS)
   activeTabMenu.classList.remove(ACTIVE_CLASS)
-  
+
   currentTabContent.classList.add(ACTIVE_CLASS)
-  currentTabMenu.classList.add(ACTIVE_CLASS)  
+  currentTabMenu.classList.add(ACTIVE_CLASS)
 }
 
 function addClickEventHandler(elements) {
