@@ -40,7 +40,34 @@
     </div>
     <div class="tabs-content-wrapper">
       <div class="tab-content solutions-table">
-        <p>The solutions</p>
+        <table class="table is-fullwidth is-bordered is-striped is-hoverable is-fullwidth">
+          <thead>
+            <tr>
+              <th></th>
+              <th><abbr title="Solution description">Description</abbr></th>
+              <th><abbr title="User">User</abbr></th>
+              <th><abbr title="Date submitted">Date</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= for solution <- @challenge.solutions do %>
+              <tr>
+                <td>
+                  <%= link "View Solution", to: solutions_path(@conn, :show, solution.id) %>
+                </td>
+                <td>
+                  <%= solution.description %>
+                </td> 
+                <td>
+                  <%= solution.user.name %>
+                </td>
+                <td>
+                  <%= solution.inserted_at %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
       </div>
       <div class="tab-content comment-box is-active">
         <article class="media">

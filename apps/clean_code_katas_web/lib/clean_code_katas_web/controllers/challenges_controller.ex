@@ -7,7 +7,11 @@ defmodule KatasWeb.ChallengesController do
   end
 
   def show(conn, %{"id" => id}) do
-    challenge = Katas.Challenges.get_challenge!(id) |> Katas.Repo.preload(:solutions)
+    challenge =
+      Katas.Challenges.get_challenge!(id)
+      |> Katas.Repo.preload(:solutions)
+      |> Katas.Repo.preload(solutions: :user)
+
     render(conn, "show.html", challenge: challenge)
   end
 end
