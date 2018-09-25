@@ -5,6 +5,7 @@ TODO:
 - [x] Add Challenges feature
 - [x] Create coding solutions feature
 - [x] Add ability for users to add solutions
+- [ ] Votes on solutions
 - [ ] Comments in Challenge 
 - [ ] Comments in Solutions
 - [ ] Add error pages
