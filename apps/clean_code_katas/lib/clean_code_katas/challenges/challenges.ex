@@ -205,4 +205,23 @@ defmodule Katas.Challenges do
   def change_solution(%Solution{} = solution) do
     Solution.changeset(solution, %{})
   end
+
+  alias Katas.Challenges.Vote
+
+  def upvote_solution(user_id, solution_id) do
+    attrs = %{user_id: user_id, solution_id: solution_id}
+
+    %Vote{}
+    |> Vote.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def get_solution_votes(solution_id) do
+    from(
+      vote in Vote,
+      select: count(vote.id),
+      where: vote.solution_id == ^solution_id
+    )
+    |> Repo.one()
+  end
 end

@@ -167,4 +167,28 @@ defmodule Katas.ChallengesTest do
       assert %Ecto.Changeset{} = Challenges.change_solution(solution)
     end
   end
+
+  describe "votes" do
+    alias Katas.Challenges.Vote
+
+    test "upvote_solution/2 creates a vote record" do
+      %{id: user_id} = insert(:user)
+      %{id: solution_id} = insert(:solution)
+
+      assert {:ok, %Vote{} = record} = Challenges.upvote_solution(user_id, solution_id)
+      assert record.user_id == user_id
+      assert record.solution_id == solution_id
+    end
+
+    test "solution_votes/1 returns the number of votes" do
+      %{id: user_one_id} = insert(:user)
+      %{id: user_two_id} = insert(:user)
+      %{id: solution_id} = insert(:solution)
+
+      Challenges.upvote_solution(user_one_id, solution_id)
+      Challenges.upvote_solution(user_two_id, solution_id)
+
+      assert Challenges.get_solution_votes(solution_id) == 2
+    end
+  end
 end
