@@ -1,13 +1,14 @@
 defmodule KatasWeb.ChallengeSolutionsController do
   use KatasWeb, :controller
+  alias Katas.Challenges
 
   def index(conn, %{"id" => id}) do
-    challenge = Katas.Challenges.get_challenge!(id)
+    challenge = Challenges.get_challenge!(id)
     render(conn, "index.html", challenge: challenge)
   end
 
   def create(conn, %{"id" => challenge_id} = params) do
-    challenge = Katas.Challenges.get_challenge!(challenge_id)
+    challenge = Challenges.get_challenge!(challenge_id)
     %{assigns: %{user: user}} = conn
 
     solution_changeset = %{
@@ -17,7 +18,7 @@ defmodule KatasWeb.ChallengeSolutionsController do
       challenge_id: challenge.id
     }
 
-    with {:ok, solution} <- Katas.Challenges.create_solution(solution_changeset) do
+    with {:ok, solution} <- Challenges.create_solution(solution_changeset) do
       conn
       |> put_flash(:info, "Your solution has been submitted")
       |> redirect(to: solutions_path(conn, :show, solution.id))

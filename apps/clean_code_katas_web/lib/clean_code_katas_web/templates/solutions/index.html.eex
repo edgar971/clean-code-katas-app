@@ -11,7 +11,14 @@
   <div class="container">
     <div class="content">
       <h1>Coder: <%= @solution.user.name %> </h1>
-      <p> <%=@solution.description%> </p>
+      <p><small>Votes: <%= @number_of_votes %> </small></p>
+      <%= link to: votes_path(@conn, :create, @solution.id), method: :create, class: "button is-success" do %>
+        <span class="icon is-small">
+          <i class="fas fa-check"></i>
+        </span>
+        <span>Upvote</span>
+      <% end %>
+      <p><%=@solution.description%></p>
       <pre>
           <%= @solution.code  %>
       </pre>

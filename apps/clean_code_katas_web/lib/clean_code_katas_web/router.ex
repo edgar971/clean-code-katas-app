@@ -8,6 +8,7 @@ defmodule KatasWeb.Router do
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
     plug(KatasWeb.Plugs.SetAuthUser)
+    plug(KatasWeb.Plugs.SetPreviousPath)
   end
 
   pipeline :auth do
@@ -34,6 +35,8 @@ defmodule KatasWeb.Router do
 
     get("/challenges/:id/solution", ChallengeSolutionsController, :index)
     post("/challenges/:id/solution", ChallengeSolutionsController, :create)
+
+    post("/votes/:solution_id", VotesController, :create)
   end
 
   scope "/auth", KatasWeb do
