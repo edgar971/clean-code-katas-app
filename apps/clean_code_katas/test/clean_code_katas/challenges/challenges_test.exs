@@ -180,6 +180,16 @@ defmodule Katas.ChallengesTest do
       assert record.solution_id == solution_id
     end
 
+    test "upvote_solution/2 multiple times creates a vote record once" do
+      %{id: user_id} = insert(:user)
+      %{id: solution_id} = insert(:solution)
+
+      assert {:ok, %Vote{}} = Challenges.upvote_solution(user_id, solution_id)
+      assert {:ok, record} = Challenges.upvote_solution(user_id, solution_id)
+
+      assert record.id == nil
+    end
+
     test "solution_votes/1 returns the number of votes" do
       %{id: user_one_id} = insert(:user)
       %{id: user_two_id} = insert(:user)

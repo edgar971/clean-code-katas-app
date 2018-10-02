@@ -14,5 +14,6 @@ defmodule Katas.Challenges.Vote do
     vote
     |> cast(attrs, [:user_id, :solution_id])
     |> validate_required([:user_id, :solution_id])
+    |> unique_constraint(:vote, name: :votes_user_id_solution_id_index)
   end
 end

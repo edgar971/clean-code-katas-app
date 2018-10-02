@@ -213,7 +213,7 @@ defmodule Katas.Challenges do
 
     %Vote{}
     |> Vote.changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert(on_conflict: :nothing)
   end
 
   def get_solution_votes(solution_id) do
