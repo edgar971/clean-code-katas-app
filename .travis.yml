@@ -1,10 +1,10 @@
 language: elixir
 elixir:
-  - 1.7
+  - 1.6.3
 env:
   - MIX_ENV=test
 addons:
-  postgresql: "10"
+  postgresql: "9.6"
 services:
   - postgresql
 before_script:
