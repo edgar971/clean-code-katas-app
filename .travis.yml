@@ -4,7 +4,7 @@ elixir:
 env:
   - MIX_ENV=test
 addons:
-  postgresql: "9.4"
+  postgresql: "10"
 services:
   - postgresql
 before_script:
