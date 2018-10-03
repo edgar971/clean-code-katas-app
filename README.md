@@ -1,4 +1,4 @@
-# Clean Code Katas
+# Clean Code Katas [![Build Status](https://travis-ci.com/edgar971/clean-code-katas-app.svg?branch=master)](https://travis-ci.com/edgar971/clean-code-katas-app)
 
 Web backend and front-end for Clean Code Katas.
 
