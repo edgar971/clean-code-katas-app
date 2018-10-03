@@ -133,8 +133,15 @@ defmodule Katas.AccountsTest do
       credential
     end
 
+    def credentials_with_user() do
+      %{user: %{name: "Edgar Pino"}}
+      |> Enum.into(@valid_attrs)
+    end
+
     test "create_credential/1 with valid data creates a credential" do
-      assert {:ok, %Credential{} = credential} = Accounts.create_credential(@valid_attrs)
+      assert {:ok, %Credential{} = credential} =
+               Accounts.create_credential(credentials_with_user())
+
       assert credential.email == "test@me.com"
       assert credential.token == @valid_attrs.token
       assert credential.provider == @valid_attrs.provider
@@ -145,7 +152,7 @@ defmodule Katas.AccountsTest do
     end
 
     test "update_credential/2 with valid data updates the credential" do
-      credential = credential_fixture()
+      credential = credentials_with_user() |> credential_fixture()
       assert {:ok, credential} = Accounts.update_credential(credential, @update_attrs)
       assert %Credential{} = credential
       assert credential.email == "b@test.com"
@@ -154,7 +161,7 @@ defmodule Katas.AccountsTest do
     end
 
     test "update_credential/2 with invalid data returns error changeset" do
-      credential = credential_fixture()
+      credential = credentials_with_user() |> credential_fixture()
       assert {:error, %Ecto.Changeset{}} = Accounts.update_credential(credential, @invalid_attrs)
 
       credentials_record = Accounts.get_credential!(credential.id)
@@ -163,13 +170,13 @@ defmodule Katas.AccountsTest do
     end
 
     test "delete_credential/1 deletes the credential" do
-      credential = credential_fixture()
+      credential = credentials_with_user() |> credential_fixture()
       assert {:ok, %Credential{}} = Accounts.delete_credential(credential)
       assert_raise Ecto.NoResultsError, fn -> Accounts.get_credential!(credential.id) end
     end
 
     test "change_credential/1 returns a credential changeset" do
-      credential = credential_fixture()
+      credential = credentials_with_user() |> credential_fixture()
       assert %Ecto.Changeset{} = Accounts.change_credential(credential)
     end
   end

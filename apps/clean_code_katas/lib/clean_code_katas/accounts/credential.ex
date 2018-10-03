@@ -16,6 +16,7 @@ defmodule Katas.Accounts.Credential do
   def changeset(credential, attrs) do
     credential
     |> cast(attrs, [:email, :token, :provider])
+    |> cast_assoc(:user)
     |> validate_required([:email, :token, :provider])
     |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
