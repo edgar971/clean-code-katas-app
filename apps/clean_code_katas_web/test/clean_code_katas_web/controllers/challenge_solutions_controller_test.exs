@@ -4,9 +4,7 @@ defmodule KatasWeb.ChallengeSolutionsControllerTest do
 
   describe "when user is not logged in" do
     test "redirects the user and adds error message", %{conn: conn} do
-      challenge = insert(:challenge)
-
-      conn = get(conn, challenge_solutions_path(conn, :index, challenge.id))
+      conn = get(conn, challenge_solutions_path(conn, :index, 1))
       assert redirected_to(conn, 302)
       assert get_flash(conn, :error) == "You must be logged in."
     end

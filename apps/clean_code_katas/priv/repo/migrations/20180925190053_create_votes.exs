@@ -1,4 +1,4 @@
-defmodule CleanCodeKatas.Repo.Migrations.CreateVotes do
+defmodule Katas.Repo.Migrations.CreateVotes do
   use Ecto.Migration
 
   def change do

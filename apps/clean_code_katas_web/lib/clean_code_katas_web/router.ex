@@ -37,6 +37,7 @@ defmodule KatasWeb.Router do
     post("/challenges/:id/solution", ChallengeSolutionsController, :create)
 
     post("/votes/:solution_id", VotesController, :create)
+    post("/comments/:type/:id", CommentsController, :create)
   end
 
   scope "/auth", KatasWeb do
