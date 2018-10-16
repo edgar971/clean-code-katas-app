@@ -11,5 +11,6 @@ The idea is simple, weekly programming challenges aimed towards learning how to 
 - [x] Add ability for users to add solutions
 - [x] Votes on solutions
 - [ ] Comments in Challenge
+- [ ] Design UI/UX
 - [ ] Comments in Solutions
 - [ ] Add error pages
