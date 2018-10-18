@@ -20,7 +20,7 @@ defmodule KatasWeb.CommentsControllerTest do
   end
 
   describe "comments when user is logged in" do
-    test "creating a comment for a challenge", %{conn: conn} do
+    test "creating a comment for a challenge sucessfully", %{conn: conn} do
       challenge = insert(:challenge)
 
       conn =
@@ -28,7 +28,7 @@ defmodule KatasWeb.CommentsControllerTest do
         |> authenticate_user()
         |> post(comments_path(conn, :create, "challenge", challenge.id, @valid_comment))
 
-      assert redirected_to(conn, 302)
+      assert redirected_to(conn, 302) =~ challenges_path(conn, :show, challenge.id)
 
       [comment_record] = Katas.Comments.list_challenge_comments(challenge.id)
       assert comment_record.body == @valid_comment.comment

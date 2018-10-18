@@ -145,18 +145,20 @@
               <img src="https://bulma.io/images/placeholders/128x128.png">
             </p>
           </figure>
-          <div class="media-content">
-            <div class="field">
-              <p class="control">
-                <textarea class="textarea" placeholder="Add a comment..."></textarea>
-              </p>
+            <div class="media-content">
+          <%= form_for @conn, comments_path(@conn, :create, "challenge", @challenge.id), [class: ""], fn f -> %>
+              <div class="field">
+                <p class="control">
+                  <%= textarea(f, :comment, class: "textarea", placeholder: "Add a comment...") %>
+                </p>
+              </div>
+              <div class="field">
+                <p class="control">
+                  <button class="button">Post comment</button>
+                </p>
+              </div>
+          <% end %>
             </div>
-            <div class="field">
-              <p class="control">
-                <button class="button">Post comment</button>
-              </p>
-            </div>
-          </div>
         </article>
       </div>
     </div>

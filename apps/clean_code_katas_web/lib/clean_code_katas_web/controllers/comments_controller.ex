@@ -9,7 +9,7 @@ defmodule KatasWeb.CommentsController do
 
     with {:ok, _} <- Comments.create_challenge_comments(comment) do
       conn
-      |> redirect(to: get_session(conn, :previous_path))
+      |> redirect(to: challenges_path(conn, :show, params["id"]))
     else
       _ ->
         IO.inspect("Implement error page")
