@@ -8,6 +8,7 @@ defmodule Katas.Challenges do
 
   alias Katas.Challenges.Challenge
   alias Katas.Challenges.Solution
+  alias Katas.Comments.ChallengeComments
 
   @doc """
   Returns the list of challenges.
@@ -56,7 +57,17 @@ defmodule Katas.Challenges do
       ** (Ecto.NoResultsError)
 
   """
-  def get_challenge!(id), do: Repo.get!(Challenge, id)
+  def get_challenge!(id) do
+    comments_query =
+      from(comment in ChallengeComments, order_by: [asc: comment.inserted_at], preload: :user)
+
+    from(
+      c in Challenge,
+      where: c.id == ^id,
+      preload: [solutions: [:user], comments: ^comments_query]
+    )
+    |> Repo.one!()
+  end
 
   @doc """
   Creates a challenge.

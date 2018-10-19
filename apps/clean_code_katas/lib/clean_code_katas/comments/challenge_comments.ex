@@ -2,10 +2,13 @@ defmodule Katas.Comments.ChallengeComments do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Katas.Accounts.User
+  alias Katas.Challenges.Challenge
+
   schema "challenge_comments" do
     field(:body, :string, size: 2048)
-    field(:user_id, :id)
-    field(:challenge_id, :id)
+    belongs_to(:challenge, Challenge)
+    belongs_to(:user, User)
 
     timestamps()
   end
@@ -13,7 +16,7 @@ defmodule Katas.Comments.ChallengeComments do
   @doc false
   def changeset(challenge_comments, attrs) do
     challenge_comments
-    |> cast(attrs, [:body, :user_id, :challenge_id])
-    |> validate_required([:body, :user_id, :challenge_id])
+    |> cast(attrs, [:body])
+    |> validate_required([:body])
   end
 end

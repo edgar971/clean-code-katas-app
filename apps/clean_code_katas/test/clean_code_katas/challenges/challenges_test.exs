@@ -24,6 +24,12 @@ defmodule Katas.ChallengesTest do
       challenge
     end
 
+    def with_comments_and_solution(challenge) do
+      challenge
+      |> Repo.preload(:comments)
+      |> Repo.preload(:solutions)
+    end
+
     test "list_challenges/0 returns all challenges" do
       challenge = challenge_fixture()
       challenges = Challenges.list_challenges()
@@ -47,7 +53,7 @@ defmodule Katas.ChallengesTest do
     end
 
     test "get_challenge!/1 returns the challenge with given id" do
-      challenge = challenge_fixture()
+      challenge = challenge_fixture() |> with_comments_and_solution()
       assert Challenges.get_challenge!(challenge.id) == challenge
     end
 
@@ -63,7 +69,7 @@ defmodule Katas.ChallengesTest do
     end
 
     test "update_challenge/2 with valid data updates the challenge" do
-      challenge = challenge_fixture()
+      challenge = challenge_fixture() |> with_comments_and_solution()
       assert {:ok, challenge} = Challenges.update_challenge(challenge, @update_attrs)
       assert %Challenge{} = challenge
       assert challenge.description == "some updated description"
@@ -72,7 +78,7 @@ defmodule Katas.ChallengesTest do
     end
 
     test "update_challenge/2 with invalid data returns error changeset" do
-      challenge = challenge_fixture()
+      challenge = challenge_fixture() |> with_comments_and_solution()
       assert {:error, %Ecto.Changeset{}} = Challenges.update_challenge(challenge, @invalid_attrs)
       assert challenge == Challenges.get_challenge!(challenge.id)
     end

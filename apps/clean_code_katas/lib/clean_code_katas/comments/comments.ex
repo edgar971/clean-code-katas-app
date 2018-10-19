@@ -18,7 +18,11 @@ defmodule Katas.Comments do
 
   """
   def list_challenge_comments(challenge_id) do
-    from(c in ChallengeComments, where: c.challenge_id == ^challenge_id)
+    from(
+      c in ChallengeComments,
+      where: c.challenge_id == ^challenge_id,
+      preload: [:user]
+    )
     |> Repo.all()
   end
 
@@ -36,7 +40,14 @@ defmodule Katas.Comments do
       ** (Ecto.NoResultsError)
 
   """
-  def get_challenge_comments!(id), do: Repo.get!(ChallengeComments, id)
+  def get_challenge_comments!(id) do
+    from(
+      c in ChallengeComments,
+      where: c.id == ^id,
+      preload: [:user]
+    )
+    |> Repo.one!()
+  end
 
   @doc """
   Creates a challenge_comments.
@@ -48,10 +59,12 @@ defmodule Katas.Comments do
 
       iex> create_challenge_comments(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
-
   """
-  def create_challenge_comments(attrs \\ %{}) do
-    %ChallengeComments{}
+  def create_challenge_comments(challenge, user, attrs \\ %{}) do
+    challenge
+    |> Ecto.build_assoc(:comments)
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:user, user)
     |> ChallengeComments.changeset(attrs)
     |> Repo.insert()
   end

@@ -3,11 +3,13 @@ defmodule Katas.Accounts.User do
   import Ecto.Changeset
   alias Katas.Accounts.Credential
   alias Katas.Challenges.Solution
+  alias Katas.Comments.ChallengeComments
 
   schema "users" do
     field(:name, :string)
     has_one(:credential, Credential)
     has_many(:solutions, Solution)
+    has_many(:challenge_comments, ChallengeComments)
 
     timestamps()
   end

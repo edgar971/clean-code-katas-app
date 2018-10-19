@@ -29,8 +29,7 @@ defmodule Katas.Factory do
 
   def user_factory do
     %Katas.Accounts.User{
-      name: "Tony Stark",
-      credential: build(:credential)
+      name: "Tony Stark"
     }
   end
 

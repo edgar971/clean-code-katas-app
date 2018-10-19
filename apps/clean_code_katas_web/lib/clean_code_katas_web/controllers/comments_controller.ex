@@ -2,12 +2,14 @@ defmodule KatasWeb.CommentsController do
   use KatasWeb, :controller
 
   alias Katas.Comments
+  alias Katas.Challenges
 
   def create(conn, params) do
-    %{id: user_id} = conn.assigns.user
-    comment = %{body: params["comment"], challenge_id: params["id"], user_id: user_id}
+    %{user: user} = conn.assigns
+    challenge = Challenges.get_challenge!(params["id"])
+    comment = %{body: params["comment"]}
 
-    with {:ok, _} <- Comments.create_challenge_comments(comment) do
+    with {:ok, _} <- Comments.create_challenge_comments(challenge, user, comment) do
       conn
       |> redirect(to: challenges_path(conn, :show, params["id"]))
     else
